@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
@@ -78,6 +79,9 @@ public class Main {
         response = Unirest.get("https://api.spacetraders.io/systems/OE/ship-listings")
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
+        ShipListings shipListings = gson.fromJson(response.getBody(), ShipListings.class);
+        for(int i= 0; i< shipListings.shipListings.size(); i++) shipListings.shipListings.get(i).printOutShip();
+
 
     }
 }

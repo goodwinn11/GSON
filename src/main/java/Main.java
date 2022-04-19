@@ -117,5 +117,11 @@ public class Main {
                 .asString();
         Locations locations = gson.fromJson(response.getBody(),Locations.class);
         locations.printOutLocations();
+
+        //create flight plan
+        response = Unirest.post("https://api.spacetraders.io/my/flight-plans?shipId=" + shipid + "&destination=OE-PM")
+                .header("Authorization", "Bearer " + oldtoken)
+                .asString();
+
     }
 }

@@ -18,7 +18,7 @@ public class Main {
         Status status = gson.fromJson(response.getBody(), Status.class);
         System.out.println("Server status " + status.status);
         //getToken
-        response = Unirest.post("https://api.spacetraders.io/users/ikos7890test11/claim").asString();
+        response = Unirest.post("https://api.spacetraders.io/users/ikos7890test17/claim").asString();
         Token token = gson.fromJson(response.getBody(), Token.class);
         System.out.println("token " + token.token);
         System.out.println("username "+ token.user.username);
@@ -76,6 +76,7 @@ public class Main {
         BuyShip buyShip = gson.fromJson(response.getBody(),BuyShip.class);
         buyShip.ship.printOutShip();
         String shipid = buyShip.ship.id;
+        String shipLocation = buyShip.ship.location;
 
 
         //get my ships list
@@ -102,5 +103,19 @@ public class Main {
                 .asString();
         MarketPlace marketPlace = gson.fromJson(response.getBody(), MarketPlace.class);
         marketPlace.printOutMarketplace();
+
+        //buy metal
+        response = Unirest.post("https://api.spacetraders.io/my/purchase-orders?shipId=" + shipid + "&good=METALS&quantity=10")
+                .header("Authorization", "Bearer " + oldtoken)
+                .asString();
+        Purchase purchase2 = gson.fromJson(response.getBody(), Purchase.class);
+        purchase2.printOutPurchase();
+
+        //get nearest locations
+        response = Unirest.get("https://api.spacetraders.io/systems/OE/locations")
+                .header("Authorization", "Bearer " + oldtoken)
+                .asString();
+        Locations locations = gson.fromJson(response.getBody(),Locations.class);
+        locations.printOutLocations();
     }
 }

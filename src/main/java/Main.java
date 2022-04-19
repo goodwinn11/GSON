@@ -10,6 +10,7 @@ public class Main {
 //    }
     public static void main(String[] args) {
         String oldtoken = "0586a3be-68c6-4487-8323-c2512fa7f0f5";
+        String shipid = "cl25fu4m313522961ds618takfsj";
         //serverstatus
         HttpResponse<String> response = Unirest.get("https://api.spacetraders.io/game/status")
                 .asString();
@@ -82,6 +83,25 @@ public class Main {
         ShipListings shipListings = gson.fromJson(response.getBody(), ShipListings.class);
         for(int i= 0; i< shipListings.shipListings.size(); i++) shipListings.shipListings.get(i).printOutShip();
 
+        //buy a ship
+//        response = Unirest.post("https://api.spacetraders.io/my/ships?location=OE-PM-TR&type=JW-MK-I")
+//                .header("Authorization", "Bearer "+ oldtoken)
+//                .asString();
+//        BuyShip buyShip = gson.fromJson(response.getBody(),BuyShip.class);
+//        buyShip.ship.printOutShip();
 
+
+        //get my ships list
+        response = Unirest.get("https://api.spacetraders.io/my/ships")
+                .header("Authorization", "Bearer " + oldtoken)
+                .asString();
+        MyShips myShips = gson.fromJson(response.getBody(),MyShips.class);
+        System.out.println("\n\nMy ships: ");
+        myShips.ships.get(0).printOutShip();
+
+        //buy fuel
+        response = Unirest.post("https://api.spacetraders.io/my/purchase-orders?shipId=cl25fu4m313522961ds618takfsj&good=FUEL&quantity=30")
+                .header("Authorization", "Bearer 0586a3be-68c6-4487-8323-c2512fa7f0f5")
+                .asString();
     }
 }

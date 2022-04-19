@@ -1,7 +1,7 @@
 public class Loan {
-    public String type;
     public int amount;
+    public boolean collateralRequired;
     public int rate;
     public int termInDays;
-    public boolean collateralRequired;
+    public String type;
 }

@@ -3,7 +3,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Ship {
-    public List<Integer> cargo;
+    public List<Cargo> cargo;
     @SerializedName("class")
     public String shipClass;
     public String id;
@@ -19,7 +19,7 @@ public class Ship {
     public int y;
 
     public void printOutShip(){
-        System.out.println("\nBought ship:");
+        System.out.println("Main ship:");
         System.out.printf("\nclass: %s\nid: %s\nlocation: %s\nmanufacturer: %s\nmaxCargo: %d\nplating: %d\nspaceAvailable: %d\nspeed: %d\ntype: %s\nweapons: %d\nx: %d\ny: %d",
                 shipClass, id, location, manufacturer, maxCargo, plating, spaceAvailable, speed, type, weapons, x, y);
     }

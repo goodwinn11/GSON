@@ -17,7 +17,7 @@ public class Main {
         Status status = gson.fromJson(response.getBody(), Status.class);
         System.out.println("Server status " + status.status);
         //getToken
-        response = Unirest.post("https://api.spacetraders.io/users/ikos7890test28/claim").asString();
+        response = Unirest.post("https://api.spacetraders.io/users/ikos7890test29/claim").asString();
         Token token = gson.fromJson(response.getBody(), Token.class);
         System.out.println("token " + token.token);
         System.out.println("username " + token.user.username);

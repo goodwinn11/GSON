@@ -17,25 +17,16 @@ public class Main {
         Status status = gson.fromJson(response.getBody(), Status.class);
         System.out.println("Server status " + status.status);
         //getToken
-        response = Unirest.post("https://api.spacetraders.io/users/ikos7890test29/claim").asString();
+        response = Unirest.post("https://api.spacetraders.io/users/ikos7890test30/claim").asString();
         Token token = gson.fromJson(response.getBody(), Token.class);
-        System.out.println("token " + token.token);
-        System.out.println("username " + token.user.username);
-        System.out.println("credits " + token.user.credits);
-        System.out.println("loans " + token.user.loans);
-        System.out.println("ships " + token.user.ships);
+        token.printOutToken();
         oldtoken = token.token;
         //account information
         response = Unirest.get("https://api.spacetraders.io/my/account")
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         User user1 = gson.fromJson(response.getBody(), User.class);
-        System.out.println("\n\nAccount info:");
-        System.out.println("credits: " + user1.user.credits);
-        System.out.println("joined at: " + user1.user.joinedAt);
-        System.out.println("username: " + user1.user.username);
-        System.out.println("ship count: " + user1.user.shipCount);
-        System.out.println("structure count: " + user1.user.structureCount);
+        user1.printOutUser();
 
         //get available loans
         response = Unirest.get("https://api.spacetraders.io/types/loans")

@@ -3,7 +3,6 @@ import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
 public class SpacetradersAPI {
-    static int number;
     static HttpResponse<String> response;
     static Gson gson = new Gson();
     static String oldtoken;
@@ -13,7 +12,7 @@ public class SpacetradersAPI {
 
 
     //serverstatus
-    public static Status serverStatus() {
+    public Status serverStatus() {
         response = Unirest.get("https://api.spacetraders.io/game/status")
                 .asString();
         Status status = gson.fromJson(response.getBody(), Status.class);
@@ -22,7 +21,7 @@ public class SpacetradersAPI {
     }
 
     //getToken
-    public static Token getToken() {
+    public Token getToken(int number) {
         response = Unirest.post("https://api.spacetraders.io/users/ikos7890test" + number + "/claim").asString();
         Token token = gson.fromJson(response.getBody(), Token.class);
         token.printOutToken();
@@ -31,7 +30,7 @@ public class SpacetradersAPI {
     }
 
     //account information
-    public static User getAccountInformation() {
+    public User getAccountInformation() {
         response = Unirest.get("https://api.spacetraders.io/my/account")
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
@@ -41,7 +40,7 @@ public class SpacetradersAPI {
     }
 
     //get available loans
-    public static AvailableLoans getAvailableLoans() {
+    public AvailableLoans getAvailableLoans() {
         response = Unirest.get("https://api.spacetraders.io/types/loans")
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
@@ -49,17 +48,19 @@ public class SpacetradersAPI {
         loans.printOutAvailableLoans();
         return loans;
     }
+
     //get a loan
-    public static MyLoans getALoan(){
-        response = Unirest.post("https://api.spacetraders.io/my/loans?type=STARTUP")
+    public MyLoans getALoan(String type) {
+        response = Unirest.post("https://api.spacetraders.io/my/loans?type=" + type)
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         MyLoans myloans = gson.fromJson(response.getBody(), MyLoans.class);
         myloans.printOutLoans();
         return myloans;
     }
-     //get active loans
-    public static ActiveLoan getActiveLoans(){
+
+    //get active loans
+    public ActiveLoan getActiveLoans() {
         response = Unirest.get("https://api.spacetraders.io/my/loans")
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
@@ -67,18 +68,20 @@ public class SpacetradersAPI {
         activeLoan.printOutActiveLoan();
         return activeLoan;
     }
-      //get list of all available ships for purchase
-    public static ShipListings getShipsForPurchase(){
-        response = Unirest.get("https://api.spacetraders.io/systems/OE/ship-listings")
+
+    //get list of all available ships for purchase
+    public ShipListings getShipsForPurchase(String system) {
+        response = Unirest.get("https://api.spacetraders.io/systems/" + system + "/ship-listings")
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         ShipListings shipListings = gson.fromJson(response.getBody(), ShipListings.class);
         for (int i = 0; i < shipListings.shipListings.size(); i++) shipListings.shipListings.get(i).printOutShip();
         return shipListings;
     }
-       //buy a ship
-    public static BuyShip buyShip(){
-        response = Unirest.post("https://api.spacetraders.io/my/ships?location=OE-PM-TR&type=JW-MK-I")
+
+    //buy a ship
+    public BuyShip buyShip(String location, String type) {
+        response = Unirest.post("https://api.spacetraders.io/my/ships?location=" + location + "&type=" + type)
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         BuyShip buyShip = gson.fromJson(response.getBody(), BuyShip.class);
@@ -88,8 +91,8 @@ public class SpacetradersAPI {
         return buyShip;
     }
 
-        //get my ships list
-    public static MyShips getShipsList(){
+    //get my ships list
+    public MyShips getShipsList() {
         response = Unirest.get("https://api.spacetraders.io/my/ships")
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
@@ -100,59 +103,51 @@ public class SpacetradersAPI {
         return myShips;
     }
 
-       //buy fuel
-        public static Purchase buyFuel(){
-            response = Unirest.post("https://api.spacetraders.io/my/purchase-orders?shipId=" + shipid + "&good=FUEL&quantity=20")
-                    .header("Authorization", "Bearer " + oldtoken)
-                    .asString();
-            Purchase purchase = gson.fromJson(response.getBody(), Purchase.class);
-            System.out.println("\n\ncredits: " + purchase.credits);
-            purchase.order.printOutOrder();
-            purchase.ship.printOutShip();
-            return purchase;
-        }
+    //buy fuel
+    public Purchase buySomething(String good, int quantity) {
+        response = Unirest.post("https://api.spacetraders.io/my/purchase-orders?shipId=" + shipid + "&good=" + good + "&quantity=" + quantity)
+                .header("Authorization", "Bearer " + oldtoken)
+                .asString();
+        Purchase purchase = gson.fromJson(response.getBody(), Purchase.class);
+        System.out.println("\n\ncredits: " + purchase.credits);
+        purchase.order.printOutOrder();
+        purchase.ship.printOutShip();
+        return purchase;
+    }
+
     //See marketplace
-        public static MarketPlace seeMarketplace(){
-            response = Unirest.get("https://api.spacetraders.io/locations/" + location + "/marketplace")
-                    .header("Authorization", "Bearer " + oldtoken)
-                    .asString();
-            MarketPlace marketPlace = gson.fromJson(response.getBody(), MarketPlace.class);
-            marketPlace.printOutMarketplace();
-            return marketPlace;
-        }
+    public MarketPlace seeMarketplace() {
+        response = Unirest.get("https://api.spacetraders.io/locations/" + location + "/marketplace")
+                .header("Authorization", "Bearer " + oldtoken)
+                .asString();
+        MarketPlace marketPlace = gson.fromJson(response.getBody(), MarketPlace.class);
+        marketPlace.printOutMarketplace();
+        return marketPlace;
+    }
 
-        //buy metal
-        public static Purchase buyMetal(){
-            response = Unirest.post("https://api.spacetraders.io/my/purchase-orders?shipId=" + shipid + "&good=METALS&quantity=10")
-                    .header("Authorization", "Bearer " + oldtoken)
-                    .asString();
-            Purchase purchase2 = gson.fromJson(response.getBody(), Purchase.class);
-            purchase2.printOutPurchase();
-            return purchase2;
-        }
-        //get nearest locations
-        public static Locations getNearestLocation(){
-            response = Unirest.get("https://api.spacetraders.io/systems/OE/locations")
-                    .header("Authorization", "Bearer " + oldtoken)
-                    .asString();
-            Locations locations = gson.fromJson(response.getBody(), Locations.class);
-            locations.printOutLocations();
-            return locations;
-        }
+    public Locations getNearestLocation(String system) {
+        response = Unirest.get("https://api.spacetraders.io/systems/" + system + "/locations")
+                .header("Authorization", "Bearer " + oldtoken)
+                .asString();
+        Locations locations = gson.fromJson(response.getBody(), Locations.class);
+        locations.printOutLocations();
+        return locations;
+    }
 
-        //create flight plan
-    public static FlightPlan createFlightPlan() throws InterruptedException {
-        response = Unirest.post("https://api.spacetraders.io/my/flight-plans?shipId=" + shipid + "&destination=OE-PM")
+    //create flight plan
+    public FlightPlan createFlightPlan(String destination) throws InterruptedException {
+        response = Unirest.post("https://api.spacetraders.io/my/flight-plans?shipId=" + shipid + "&destination=" + destination)
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         FlightPlan flightPlan = gson.fromJson(response.getBody(), FlightPlan.class);
         flightPlan.flightPlan.printOutFlightPlan();
-        Thread.sleep(40000);
+        Thread.sleep(flightPlan.flightPlan.timeRemainingInSeconds * 1000 + 2000);
         flightPlanId = flightPlan.flightPlan.id;
         return flightPlan;
     }
-            //Check plan status
-    public static FlightPlan checkPlanStatus(){
+
+    //Check plan status
+    public FlightPlan checkPlanStatus() {
         response = Unirest.get("https://api.spacetraders.io/my/flight-plans/" + flightPlanId)
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
@@ -161,21 +156,15 @@ public class SpacetradersAPI {
         return flightPlan;
     }
 
-        //sell metals
-    public static Purchase sellMetals(){
-        response = Unirest.post("https://api.spacetraders.io/my/sell-orders?shipId=" + shipid + "&good=METALS&quantity=10")
+    //sell metals
+    public Purchase sellSomething(String good, int quantity) {
+        response = Unirest.post("https://api.spacetraders.io/my/sell-orders?shipId=" + shipid + "&good=" + good + "&quantity=" + quantity)
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         Purchase soldMetals = gson.fromJson(response.getBody(), Purchase.class);
         soldMetals.printOutPurchase();
         return soldMetals;
     }
-
-
-
-
-
-
 
 
 }

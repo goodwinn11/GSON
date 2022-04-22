@@ -6,14 +6,16 @@ public class Main {
 static boolean dummy;
 
     public static void main(String[] args) throws InterruptedException {
-        dummy = true;
-        SpacetradersAPI api = new SpacetradersAPI();
-        if(dummy) {
-            api = new DummySpaceTradersAPI();
-        }
+        dummy = false;
 
+        if(dummy) {
+          DummySpaceTradersAPI  api = new DummySpaceTradersAPI();
+        } else {
+            SpacetradersAPI api = new SpacetradersAPI();
+        }
+        DummySpaceTradersAPI  api = new DummySpaceTradersAPI();
         Status status = api.serverStatus();
-        Token token = api.getToken(68);
+        Token token = api.getToken(69);
         User user1 = api.getAccountInformation();
         AvailableLoans loans = api.getAvailableLoans();
         MyLoans myloans = api.getALoan("STARTUP");
@@ -28,7 +30,7 @@ static boolean dummy;
         FlightPlan flightPlan = api.createFlightPlan("OE-PM");
         flightPlan = api.checkPlanStatus();
         purchase = api.sellSomething("METALS",10);
-        api.writeToFile();
+        //api.writeToFile();
 
 
     }

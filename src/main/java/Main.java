@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         SpacetradersAPI api = new SpacetradersAPI();
         Status status = api.serverStatus();
-        Token token = api.getToken(58);
+        Token token = api.getToken(60);
         User user1 = api.getAccountInformation();
         AvailableLoans loans = api.getAvailableLoans();
         MyLoans myloans = api.getALoan("STARTUP");
@@ -22,6 +22,7 @@ public class Main {
         FlightPlan flightPlan = api.createFlightPlan("OE-PM");
         flightPlan = api.checkPlanStatus();
         purchase = api.sellSomething("METALS",10);
+        api.writeToFile();
 
 
     }

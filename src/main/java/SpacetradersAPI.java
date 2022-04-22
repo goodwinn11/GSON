@@ -23,7 +23,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
         response = Unirest.get("https://api.spacetraders.io/game/status")
                 .asString();
         Status status = gson.fromJson(response.getBody(), Status.class);
-        jsons.add("status = " + response.getBody().toString() + "\n");
+        jsons.add("public static String statusJson = " + response.getBody() + ";");
         System.out.println("Server status " + status.status);
         return status;
     }
@@ -32,7 +32,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
     public Token getToken(int number) {
         response = Unirest.post("https://api.spacetraders.io/users/ikos7890test" + number + "/claim").asString();
         Token token = gson.fromJson(response.getBody(), Token.class);
-        jsons.add("token = " + response.getBody().toString() + "\n");
+        jsons.add("public static String tokenJson = " + response.getBody() + ";");
         token.printOutToken();
         oldtoken = token.token;
         return token;
@@ -44,7 +44,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         User user1 = gson.fromJson(response.getBody(), User.class);
-        jsons.add("user1 = " + response.getBody().toString() + "\n");
+        jsons.add("public static String user1Json = " + response.getBody() + ";");
         user1.printOutUser();
         return user1;
     }
@@ -55,7 +55,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         AvailableLoans loans = gson.fromJson(response.getBody(), AvailableLoans.class);
-        jsons.add("loans = " + response.getBody().toString() + "\n");
+        jsons.add("public static String loansJson = " + response.getBody() + ";");
         loans.printOutAvailableLoans();
         return loans;
     }
@@ -66,7 +66,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         MyLoans myloans = gson.fromJson(response.getBody(), MyLoans.class);
-        jsons.add("myloans = " + response.getBody().toString() + "\n");
+        jsons.add("public static String myloansJson = " + response.getBody() + ";");
         myloans.printOutLoans();
         return myloans;
     }
@@ -77,7 +77,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         ActiveLoan activeLoan = gson.fromJson(response.getBody(), ActiveLoan.class);
-        jsons.add("activeLoan = " + response.getBody().toString() + "\n");
+        jsons.add("public static String activeLoanJson = " + response.getBody() + ";");
         activeLoan.printOutActiveLoan();
         return activeLoan;
     }
@@ -88,7 +88,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         ShipListings shipListings = gson.fromJson(response.getBody(), ShipListings.class);
-        jsons.add("shipListings = " + response.getBody().toString() + "\n");
+        jsons.add("public static String shipListingsJson = " + response.getBody() + ";");
         for (int i = 0; i < shipListings.shipListings.size(); i++) shipListings.shipListings.get(i).printOutShip();
         return shipListings;
     }
@@ -99,7 +99,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         BuyShip buyShip = gson.fromJson(response.getBody(), BuyShip.class);
-        jsons.add("buyShip = " + response.getBody().toString() + "\n");
+        jsons.add("public static String buyShipJson = " + response.getBody() + ";");
         buyShip.ship.printOutShip();
         shipid = buyShip.ship.id;
         location = buyShip.ship.location;
@@ -112,7 +112,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         MyShips myShips = gson.fromJson(response.getBody(), MyShips.class);
-        jsons.add("myShips = " + response.getBody().toString() + "\n");
+        jsons.add("public static String myShipsJson = " + response.getBody() + ";");
         System.out.println("\n\nMy ships: ");
         myShips.ships.get(0).printOutShip();
         location = myShips.ships.get(0).location;
@@ -124,12 +124,12 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
         response = Unirest.post("https://api.spacetraders.io/my/purchase-orders?shipId=" + shipid + "&good=" + good + "&quantity=" + quantity)
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
-        Purchase purchase = gson.fromJson(response.getBody(), Purchase.class);
-        jsons.add("purchase = " + response.getBody().toString() + "\n");
-        System.out.println("\n\ncredits: " + purchase.credits);
-        purchase.order.printOutOrder();
-        purchase.ship.printOutShip();
-        return purchase;
+        Purchase buySomething = gson.fromJson(response.getBody(), Purchase.class);
+        jsons.add("public static String buySomethingJson = " + response.getBody() + ";");
+        System.out.println("\n\ncredits: " + buySomething.credits);
+        buySomething.order.printOutOrder();
+        buySomething.ship.printOutShip();
+        return buySomething;
     }
 
     //See marketplace
@@ -138,7 +138,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         MarketPlace marketPlace = gson.fromJson(response.getBody(), MarketPlace.class);
-        jsons.add("marketPlace = " + response.getBody().toString() + "\n");
+        jsons.add("public static String marketPlaceJson = " + response.getBody() + ";");
         marketPlace.printOutMarketplace();
         return marketPlace;
     }
@@ -148,7 +148,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         Locations locations = gson.fromJson(response.getBody(), Locations.class);
-        jsons.add("locations = " + response.getBody().toString() + "\n");
+        jsons.add("public static String locationsJson = " + response.getBody() + ";");
         locations.printOutLocations();
         return locations;
     }
@@ -159,7 +159,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         FlightPlan flightPlan = gson.fromJson(response.getBody(), FlightPlan.class);
-        jsons.add("flightPlan = " + response.getBody().toString() + "\n");
+        jsons.add("public static String flightPlanJson = " + response.getBody() + ";");
         flightPlan.flightPlan.printOutFlightPlan();
         Thread.sleep(flightPlan.flightPlan.timeRemainingInSeconds * 1000 + 2000);
         flightPlanId = flightPlan.flightPlan.id;
@@ -171,10 +171,10 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
         response = Unirest.get("https://api.spacetraders.io/my/flight-plans/" + flightPlanId)
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
-        FlightPlan flightPlan = gson.fromJson(response.getBody(), FlightPlan.class);
-        jsons.add("flightPlan = " + response.getBody().toString() + "\n");
-        flightPlan.flightPlan.printOutFlightPlan();
-        return flightPlan;
+        FlightPlan flightPlanStatus = gson.fromJson(response.getBody(), FlightPlan.class);
+        jsons.add("public static String flightPlanStatusJson = " + response.getBody() + ";");
+        flightPlanStatus.flightPlan.printOutFlightPlan();
+        return flightPlanStatus;
     }
 
     //sell metals
@@ -183,7 +183,7 @@ public class SpacetradersAPI implements ISpaceTradersAPI{
                 .header("Authorization", "Bearer " + oldtoken)
                 .asString();
         Purchase soldMetals = gson.fromJson(response.getBody(), Purchase.class);
-        jsons.add("soldMetals = " + response.getBody().toString() + "\n");
+        jsons.add("public static String soldMetalsJson = " + response.getBody() + ";");
         soldMetals.printOutPurchase();
         return soldMetals;
     }

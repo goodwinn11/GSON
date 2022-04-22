@@ -3,11 +3,17 @@
 
 
 public class Main {
+static boolean dummy;
 
     public static void main(String[] args) throws InterruptedException {
+        dummy = true;
         SpacetradersAPI api = new SpacetradersAPI();
+        if(dummy) {
+            api = new DummySpaceTradersAPI();
+        }
+
         Status status = api.serverStatus();
-        Token token = api.getToken(60);
+        Token token = api.getToken(68);
         User user1 = api.getAccountInformation();
         AvailableLoans loans = api.getAvailableLoans();
         MyLoans myloans = api.getALoan("STARTUP");
